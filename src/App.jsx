@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { Toaster } from 'react-hot-toast'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Register from './pages/Register/Register'
 
 
 function App() {
@@ -6,7 +9,12 @@ function App() {
 
   return (
     <>
-    Ratnesh Maurya 
+    <BrowserRouter>
+    <Routes>
+      <Route path='/register' element={<Register/>}/>
+    </Routes>
+    </BrowserRouter>
+    <Toaster/>
     </>
   )
 }
