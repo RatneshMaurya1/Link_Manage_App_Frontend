@@ -88,7 +88,10 @@
     font-size: 18px;
     font-weight: 600;
     line-height: 24.59px;
-    color: #ececee;
+    color: #B3B3B3;
+  }
+  form > input::placeholder{
+    color: #B3B3B3;
   }
   form > button {
     width: 100%;
