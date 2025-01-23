@@ -39,6 +39,8 @@ const Register = () => {
         });
         localStorage.setItem("token",response.token)
         localStorage.setItem("userId",response.user._id)
+        localStorage.setItem("name",response.user.name)
+        navigate(`/dashboard/${localStorage.getItem("userId")}`)
       } else {
         toast.error(response.message);
       }

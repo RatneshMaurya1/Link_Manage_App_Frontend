@@ -1,0 +1,58 @@
+.dashboardContainer {
+  height: 100vh;
+  width: 100%;
+}
+.sidebar {
+  height: 100vh;
+  width: 20%;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  padding-left: 40px;
+}
+.sidebar > img {
+  height: 40px;
+  width: 170px;
+  margin-top: 30px;
+}
+.options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 20px;
+  height: 140px;
+  width: 100%;
+  border-bottom: 1px solid #f2f2f2;
+}
+.option1 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.dashboardText {
+  color: #1b48da;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19.12px;
+}
+.option1 > p {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19.12px;
+  text-align: left;
+  color: #3b3c51;
+}
+.setting {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+.setting > p {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19.12px;
+  text-align: left;
+  color: #3b3c51;
+}
