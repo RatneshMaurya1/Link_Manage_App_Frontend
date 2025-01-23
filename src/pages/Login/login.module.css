@@ -1,0 +1,121 @@
+.container {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+  }
+  .loginImage {
+    height: 100%;
+    width: 40%;
+    position: relative;
+  }
+  .loginImage > img {
+    height: 100%;
+    width: 100%;
+  }
+  .cuvetteImage {
+    position: absolute;
+    width: 131.88px;
+    height: 32px;
+    top: 20px;
+    left: 20px;
+  }
+  .formContainer {
+    height: 100vh;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+  }
+  .loginSignupButton {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+    padding-right: 30px;
+    justify-content: flex-end;
+  }
+  .loginButton {
+    width: 70px;
+    height: 39px;
+    border-radius: 6px;
+    background: #1b48da;
+    color: #ffffff;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .signupButton {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .join {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 27.32px;
+    margin-top: 50px;
+    margin-left: 12%;
+  }
+  .form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* margin-top: 40px; */
+  }
+  form {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  form > input {
+    width: 100%;
+    height: 42px;
+    border: 1px solid #3b3c51;
+    outline: none;
+    border-radius: 4px;
+    padding-left: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24.59px;
+    color: #ececee;
+  }
+  form > button {
+    width: 100%;
+    height: 42px;
+    border: none;
+    background: #1b48da;
+    border-radius: 6px;
+    font-family: Manrope;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 21.86px;
+    color: #ffffff;
+    letter-spacing: 1px;
+    margin-top: 15px;
+    cursor: pointer;
+  }
+  .account {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 21.86px;
+    margin-top: 25px;
+  }
+  .account > span {
+    color: #1b48da;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 21.86px;
+    cursor: pointer;
+  }
+  

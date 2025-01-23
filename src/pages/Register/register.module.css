@@ -23,6 +23,8 @@
 .formContainer {
   height: 100vh;
   width: 60%;
+  display: flex;
+  flex-direction: column;
 }
 .loginSignupButton {
   display: flex;
@@ -60,11 +62,13 @@
   margin-left: 12%;
 }
 .form {
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 40px;
+  /* margin-top: 40px; */
 }
 form {
   width: 75%;
