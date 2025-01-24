@@ -12,7 +12,7 @@ function App() {
   const DefaultRoute = () => {
     const isLoggedIn = localStorage.getItem("token");   
   
-    return isLoggedIn ? <Navigate to={`/dashboard/${localStorage.getItem("userId")}`} replace /> : <Navigate to="/landing" replace />;
+    return isLoggedIn ? <Navigate to={`/dashboard/${localStorage.getItem("userId")}`} replace /> : <Navigate to="/login" replace />;
   };
 
   return (
