@@ -1,5 +1,4 @@
-
-import React from "react";
+import React,{useState} from "react";
 import styles from "./setting.module.css";
 import cuvetteImage from "../../assets/cuvette.png";
 import dashboardIcon from "../../assets/Icons.png";
@@ -8,10 +7,26 @@ import AnalyticIcon from "../../assets/Icon2.png";
 import settingIcon from "../../assets/setting.png";
 import Nav from "../../components/Nav/Nav";
 import { useNavigate, useParams } from "react-router-dom";
+import DeleteAccount from "../../components/DeleteAccount/DeleteAccount";
 
 const Analytics = () => {
     const navigate = useNavigate()
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
     const {id} = useParams()
+
+    const handleDeleteClick = () => {
+      setShowDeletePopup(true);
+    };
+  
+    const handleConfirmDelete = () => {
+      console.log("Item deleted");
+      setShowDeletePopup(false);
+    };
+  
+    const handleCancelDelete = () => {
+      setShowDeletePopup(false);
+    };
+  
   return (
     <div className={styles.linkContainer}>
       <div className={styles.sidebar}>
@@ -56,9 +71,16 @@ const Analytics = () => {
                 <input type="text" placeholder="mobile"/>
             </div>
             <button className={styles.saveButton}>Save Changes</button>
-            <button className={styles.deleteAccount}>Delete Account</button>
+            <button className={styles.deleteAccount} onClick={handleDeleteClick}>Delete Account</button>
         </div>
       </div>
+      {showDeletePopup && (
+          <DeleteAccount
+            message=" Are you sure, you want to delete the account ? "
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+          />
+        )}
     </div>
   );
 };
