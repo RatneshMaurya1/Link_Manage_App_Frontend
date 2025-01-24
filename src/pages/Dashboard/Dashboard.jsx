@@ -6,9 +6,11 @@ import linkIcon from "../../assets/Icon1.png";
 import AnalyticIcon from "../../assets/Icon2.png";
 import settingIcon from "../../assets/Frame.png";
 import Nav from "../../components/Nav/Nav";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate()
+  const {id } = useParams()
   const dateWiseClicks = [
     { label: "21-01-25", value: 1234, widthPercentage: 90 },
     { label: "20-01-25", value: 1140, widthPercentage: 80 },
@@ -31,7 +33,7 @@ const Dashboard = () => {
             <img src={dashboardIcon} alt="dashboardIcon-image" />
             <h3 className={styles.dashboardText}>Dashboard</h3>
           </div>
-          <div className={styles.option1}>
+          <div className={styles.option1} onClick={() => navigate(`/link/${id}`)}>
             <img src={linkIcon} alt="link-icon" />
             <p>Link</p>
           </div>

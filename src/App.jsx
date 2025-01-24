@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, replace, Route, Routes } from 'react-router-do
 import Register from './pages/Register/Register'
 import Login from "./pages/Login/Login"
 import Dashboard from './pages/Dashboard/Dashboard'
+import Link from './pages/Link/Link'
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
       <Route path='/register' element={<Register/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/dashboard/:id' element={<Dashboard/>}/>
+      <Route path='/link/:id' element={<Link/>}/>
     </Routes>
     </BrowserRouter>
     <Toaster/>

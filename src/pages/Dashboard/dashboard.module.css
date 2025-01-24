@@ -15,6 +15,7 @@
   height: 40px;
   width: 170px;
   margin-top: 30px;
+  margin-left: 40px;
 }
 .options {
   display: flex;
@@ -31,6 +32,7 @@
   align-items: center;
   gap: 15px;
   padding-left: 40px;
+  cursor: pointer;
 }
 .dashboardText {
   color: #1b48da;
@@ -68,6 +70,7 @@
   gap: 15px;
   margin-top: 20px;
   padding-left: 40px;
+  cursor: pointer;
 }
 .setting > p {
   font-size: 14px;
