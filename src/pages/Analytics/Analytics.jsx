@@ -1,9 +1,9 @@
 import React from "react";
-import styles from "./link.module.css";
+import styles from "./Analytics.module.css";
 import cuvetteImage from "../../assets/cuvette.png";
 import dashboardIcon from "../../assets/Icons.png";
-import linkIcon from "../../assets/blueLink.png";
-import AnalyticIcon from "../../assets/Icon2.png";
+import linkIcon from "../../assets/Icon1.png";
+import AnalyticIcon from "../../assets/analytics.png";
 import settingIcon from "../../assets/Frame.png";
 import copyIcon from "../../assets/copy.png";
 import editIcon from "../../assets/edit.png";
@@ -11,7 +11,7 @@ import deleteIcon from "../../assets/delete.png";
 import Nav from "../../components/Nav/Nav";
 import { useNavigate, useParams } from "react-router-dom";
 
-const Link = () => {
+const Analytics = () => {
     const navigate = useNavigate()
     const {id} = useParams()
   return (
@@ -24,15 +24,15 @@ const Link = () => {
             <p>Dashboard</p>
           </div>
           <div
-            className={styles.optionDashboard}
+            className={styles.option1}
             onClick={() => navigate(`/link/${id}`)}
           >
             <img src={linkIcon} alt="link-icon" />
-            <h3 className={styles.dashboardText}>Link</h3>
+            <p>Link</p>
           </div>
-          <div className={styles.option1}  onClick={() => navigate(`/analytics/${id}`)}>
+          <div className={styles.optionDashboard}>
             <img src={AnalyticIcon} alt="Analytics-icon" />
-            <p>Analytics</p>
+            <h3 className={styles.dashboardText}>Analytics</h3>
           </div>
         </div>
         <div className={styles.setting}  onClick={() => navigate(`/setting/${id}`)}>
@@ -45,37 +45,27 @@ const Link = () => {
           <Nav />
         </div>
         <div className={styles.detailsHeader}>
-            <p>Date</p>
+            <p>Timestamp</p>
             <p>Original Link</p>
             <p>Short Link</p>
-            <p>Remarks</p>
-            <p>Clicks</p>
-            <p>Status</p>
-            <p>Action</p>
+            <p>ip address</p>
+            <p>User Device</p>
         </div>
         <div className={styles.linkDetails}>
             <div className={styles.date}>
             <p>Jan 14, 2025 16:30</p>
             </div>
             <div className={styles.originalLink}>
-            <p>{"https://www.travelwiththejoneses.com/".slice(0,18)}</p>
+            <p>{"https://www.travelwiththejoneses.com".slice(0,30)}</p>
             </div>
             <div className={styles.shortLink}>
-            <p>{"https://www.travelwiththejoneses.com/".slice(0,10)}</p>
-            <img src={copyIcon} alt="copy-image" />
+            <p>{"https://www.travelwiththejoneses.com".slice(0,30)}</p>
             </div>
-            <div className={styles.remarks}>
-                <p>campaign1</p>
+            <div className={styles.ipAddress}>
+                <p>192.158.1.38</p>
             </div>
-            <div className={styles.clicks}>
-                <p>5</p>
-            </div>
-            <div className={styles.status}>
-                <p>Active</p>
-            </div>
-            <div className={styles.action}>
-                <img src={editIcon} alt="edit-image" />
-                <img src={deleteIcon} alt="delete-image" />
+            <div className={styles.userDevice}>
+                <p>Adroid</p>
             </div>
         </div>
       </div>
@@ -83,4 +73,4 @@ const Link = () => {
   );
 };
 
-export default Link;
+export default Analytics;

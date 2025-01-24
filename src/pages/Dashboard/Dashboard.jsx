@@ -37,12 +37,12 @@ const Dashboard = () => {
             <img src={linkIcon} alt="link-icon" />
             <p>Link</p>
           </div>
-          <div className={styles.option1}>
+          <div className={styles.option1} onClick={() => navigate(`/analytics/${id}`)}>
             <img src={AnalyticIcon} alt="Analytics-icon" />
             <p>Analytics</p>
           </div>
         </div>
-        <div className={styles.setting}>
+        <div className={styles.setting}  onClick={() => navigate(`/setting/${id}`)}>
           <img src={settingIcon} alt="setting-icon" />
           <p>Settings</p>
         </div>

@@ -5,6 +5,7 @@ import Register from './pages/Register/Register'
 import Login from "./pages/Login/Login"
 import Dashboard from './pages/Dashboard/Dashboard'
 import Link from './pages/Link/Link'
+import Analytics from "./pages/Analytics/Analytics"
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
       <Route path='/login' element={<Login/>}/>
       <Route path='/dashboard/:id' element={<Dashboard/>}/>
       <Route path='/link/:id' element={<Link/>}/>
+      <Route path='/analytics/:id' element={<Analytics/>} />
     </Routes>
     </BrowserRouter>
     <Toaster/>
