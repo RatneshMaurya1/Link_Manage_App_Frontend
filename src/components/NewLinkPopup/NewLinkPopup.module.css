@@ -1,0 +1,176 @@
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popupContent {
+  background: white;
+  width: 500px;
+  height: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.popupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 45px;
+  background: #3b3c51;
+  padding: 0 20px;
+  border-radius: 6px 6px 0 0;
+}
+.NewLinkText {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24.59px;
+  color: #ffffff;
+}
+.popupHeader button {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  color: #ffffff;
+}
+.popupBody {
+  padding: 20px;
+}
+
+.popupBody label {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 21.86px;
+  text-align: left;
+  color: #3b3c51;
+}
+.popupBody > label > span {
+  font-size: 16px;
+  color: #ff0101;
+}
+.remarks {
+  margin: 20px 0;
+}
+.popupBody input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #a0a0a0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.86px;
+}
+.popupBody input::placeholder {
+  color: #a0a0a0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.86px;
+}
+.popupBody textarea {
+  width: 100%;
+  height: 130px;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #a0a0a0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.86px;
+}
+.popupBody textarea::placeholder {
+  color: #a0a0a0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.86px;
+}
+.expirationToggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popupFooter {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  background: #3b3c511a;
+  padding: 0px 20px;
+}
+.clearButton {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21.86px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.createButton {
+  width: 110px;
+  height: 36px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21.86px;
+  background: #1b48da;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.expirationToggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.expirationToggle span {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 21.86px;
+  text-align: left;
+  color: #3b3c51;
+}
+
+.toggleSwitch {
+  width: 50px;
+  height: 24px;
+  background: #ccc;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.toggleSwitch.active {
+  background: #3f51b5;
+}
+
+.toggleThumb {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: left 0.3s;
+}
+
+.toggleSwitch.active .toggleThumb {
+  left: 28px;
+}

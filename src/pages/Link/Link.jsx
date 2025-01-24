@@ -11,11 +11,13 @@ import deleteIcon from "../../assets/delete.png";
 import Nav from "../../components/Nav/Nav";
 import { useNavigate, useParams } from "react-router-dom";
 import Popup from "../../components/DeleteLink/DeleteLink";
+import EditLinkPopup from "../../components/EditLinkPopup/EditLinkPopup"
 
 const Link = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
+  const [showEditPopup, setShowEditPopup] = useState(false);
 
   const handleDeleteClick = () => {
     setShowPopup(true);
@@ -30,6 +32,13 @@ const Link = () => {
     setShowPopup(false);
   };
 
+  const handleEditLinkClick = () => {
+    setShowEditPopup(true); 
+  };
+
+  const handleCloseEditLinkPopup = () => {
+    setShowEditPopup(false);
+  };
   return (
     <div className={styles.linkContainer}>
       <div className={styles.sidebar}>
@@ -90,7 +99,7 @@ const Link = () => {
             <p>Active</p>
           </div>
           <div className={styles.action}>
-            <img src={editIcon} alt="edit-image" />
+            <img onClick={handleEditLinkClick} src={editIcon} alt="edit-image" />
             <img
               src={deleteIcon}
               alt="delete-image"
@@ -105,6 +114,7 @@ const Link = () => {
             onCancel={handleCancelDelete}
           />
         )}
+        {showEditPopup && <EditLinkPopup onClose={handleCloseEditLinkPopup} />}
       </div>
     </div>
   );
