@@ -1,15 +1,39 @@
 import React, { useState } from "react";
 import styles from "./editlinkpopup.module.css";
+import { updatetLink } from "../../services";
+import toast from "react-hot-toast";
 
-const EditLinkPopup = ({ onClose }) => {
-  const [url, setUrl] = useState("");
-  const [remarks, setRemarks] = useState("");
-  const [expirationDate, setExpirationDate] = useState("");
+const EditLinkPopup = ({ onClose,idLink }) => {
+  const [linkData, setLinkData] = useState({
+    originalLink: "",
+    remark: "",
+    expire: "",
+  });
+  const [loading, setLoading] = useState(false);
   const [isExpirationEnabled, setIsExpirationEnabled] = useState(false);
 
-  const handleSubmit = () => {
-    console.log({ url, remarks, expirationDate, isExpirationEnabled });
-    onClose(); 
+  const handleSubmit = async () => {
+    if (!linkData.originalLink && !linkData.remark && !linkData.expire) {
+      toast.error("Please provide atleast one field to update.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await updatetLink(linkData,idLink);
+      if (response.message === "Link updated successfully.") {
+        toast.success(response.message);
+        setLinkData({
+          originalLink:"",
+          remark:"",
+          expire:"",
+        })
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+      onClose();
+    }
   };
 
   return (
@@ -21,23 +45,27 @@ const EditLinkPopup = ({ onClose }) => {
         </div>
         <div className={styles.popupBody}>
           <label>
-            Destination URL <span>*</span>
+            Destination URL <span className={styles.span}>*</span>
             <input
-              type="url"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
+              type="text"
+              value={linkData.originalLink}
+              onChange={(e) =>
+                setLinkData({ ...linkData, originalLink: e.target.value })
+              }
               placeholder="https://example.com"
             />
           </label>
           <div className={styles.remarks}>
-          <label>
-            Remarks <span>*</span>
-            <textarea
-              value={remarks}
-              onChange={(e) => setRemarks(e.target.value)}
-              placeholder="Add remarks"
-            ></textarea>
-          </label>
+            <label>
+              Remarks <span className={styles.span}>*</span>
+              <textarea
+                value={linkData.remark}
+                onChange={(e) =>
+                  setLinkData({ ...linkData, remark: e.target.value })
+                }
+                placeholder="Add remarks"
+              ></textarea>
+            </label>
           </div>
           <div className={styles.expirationToggle}>
             <span>Link Expiration</span>
@@ -51,21 +79,28 @@ const EditLinkPopup = ({ onClose }) => {
             </div>
           </div>
           {isExpirationEnabled && (
-              <input
-                type="datetime-local"
-                value={expirationDate}
-                onChange={(e) => setExpirationDate(e.target.value)}
-              />
+            <input
+              type="datetime-local"
+              value={linkData.expire}
+              onChange={(e) =>
+                setLinkData({ ...linkData, expire: e.target.value })
+              }
+            />
           )}
         </div>
         <div className={styles.popupFooter}>
-          <button className={styles.clearButton} onClick={onClose}>Clear</button>
-          <button className={styles.createButton} onClick={handleSubmit}>Create new</button>
+          <button className={styles.clearButton} onClick={onClose}>
+            Clear
+          </button>
+          <button disabled={loading} className={styles.createButton} onClick={handleSubmit}>
+            {loading ? "Creating..." : "Save"}
+          </button>
         </div>
       </div>
     </div>
   );
 };
+
 
 export default EditLinkPopup;
 

@@ -17,14 +17,31 @@ const Nav = () => {
     setShowPopup(false);
   };
 
+  const currentHour = new Date().getHours(); 
+  let greeting = "Good morning";
+
+  if (currentHour >= 12 && currentHour < 17) {
+    greeting = `Good afternoon`;
+  } else if (currentHour >= 17 && currentHour < 21) {
+    greeting = " 🌆 Good evening";
+  } else if (currentHour >= 21 || currentHour < 5) {
+    greeting = "🌃 Good night";
+  }
+
+  let currentDateAndTime = new Date().toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    weekday: "short",
+  });
+
   return (
     <div className={styles.navContainer}>
       <div className={styles.navContent1}>
         <div className={styles.navOption1}>
-          <img src={morningIcon} alt="morning-image" />
-          <p>Good morning, {name}</p>
+          {greeting === "Good morning" && <img src={morningIcon} alt="morning-image" />}
+          <p>{greeting}, {name}</p>
         </div>
-        <p>Tue, Jan 25</p>
+        <p>{currentDateAndTime}</p>
       </div>
       <div className={styles.navContent2Wrapper}>
         <div className={styles.navContent2}>

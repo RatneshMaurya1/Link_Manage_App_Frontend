@@ -11,8 +11,8 @@ import deleteIcon from "../../assets/delete.png";
 import Nav from "../../components/Nav/Nav";
 import { useNavigate, useParams } from "react-router-dom";
 import Popup from "../../components/DeleteLink/DeleteLink";
-import EditLinkPopup from "../../components/EditLinkPopup/EditLinkPopup"
-import { getLinkData } from "../../services";
+import EditLinkPopup from "../../components/EditLinkPopup/EditLinkPopup";
+import {deleteLinkById, getLinkData } from "../../services";
 import toast from "react-hot-toast";
 
 const Link = () => {
@@ -21,48 +21,72 @@ const Link = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [linkData, setLinkData] = useState([]);
+  const [idLink, setIdLink] = useState("");
+  const [deleteLinkId, setDeleteLinkId] = useState("");
+  const [loading,setLoading] = useState(false)
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (deleteId) => {
+    setDeleteLinkId(deleteId);
     setShowPopup(true);
   };
 
-  const handleConfirmDelete = () => {
-    console.log("Item deleted");
-    setShowPopup(false);
+  const handleConfirmDelete = async () => {
+    setLoading(true)
+    try {
+      const response = await deleteLinkById(deleteLinkId);
+      if(response.message === "Link deleted successfully."){
+        return toast.success(response.message)
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setShowPopup(false);
+      setLoading(false)
+    }
   };
 
   const handleCancelDelete = () => {
     setShowPopup(false);
   };
 
-  const handleEditLinkClick = () => {
-    setShowEditPopup(true); 
+  const handleEditLinkClick = (linkId) => {
+    setIdLink(linkId);
+    setShowEditPopup(true);
   };
 
   const handleCloseEditLinkPopup = () => {
     setShowEditPopup(false);
   };
   useEffect(() => {
-    const getLinks = async () => {
+    const fetchLinks = async () => {
       try {
-        const response = await getLinkData()
-        setLinkData(response.links)
+        const response = await getLinkData();
+        setLinkData(response.links);
       } catch (error) {
-        toast.error(error.message)
+        console.error(error.message);
       }
-    }
-    getLinks()
-  },[])
+    };
+
+    fetchLinks();
+
+    const interval = setInterval(fetchLinks, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleCopyLink = (link) => {
-    navigator.clipboard.writeText(link)
-    toast.success("Link copied to clipboard!")
-  } 
+    navigator.clipboard.writeText(link);
+    toast.success("Link copied to clipboard!");
+  };
   return (
     <div className={styles.linkContainer}>
       <div className={styles.sidebar}>
         <img src={cuvetteImage} alt="cuvette-image" />
         <div className={styles.options}>
-          <div className={styles.option1} onClick={() => navigate(`/dashboard/${id}`)}>
+          <div
+            className={styles.option1}
+            onClick={() => navigate(`/dashboard/${id}`)}
+          >
             <img src={dashboardIcon} alt="dashboardIcon-image" />
             <p>Dashboard</p>
           </div>
@@ -73,12 +97,18 @@ const Link = () => {
             <img src={linkIcon} alt="link-icon" />
             <h3 className={styles.dashboardText}>Link</h3>
           </div>
-          <div className={styles.option1} onClick={() => navigate(`/analytics/${id}`)}>
+          <div
+            className={styles.option1}
+            onClick={() => navigate(`/analytics/${id}`)}
+          >
             <img src={AnalyticIcon} alt="Analytics-icon" />
             <p>Analytics</p>
           </div>
         </div>
-        <div className={styles.setting} onClick={() => navigate(`/setting/${id}`)}>
+        <div
+          className={styles.setting}
+          onClick={() => navigate(`/setting/${id}`)}
+        >
           <img src={settingIcon} alt="setting-icon" />
           <p>Settings</p>
         </div>
@@ -96,53 +126,64 @@ const Link = () => {
           <p>Status</p>
           <p>Action</p>
         </div>
-        {linkData.length > 0 && linkData.map((link) => (
-                <div className={styles.linkDetails} key={link._id}>
-                <div className={styles.date}>
-                  <p>Jan 14, 2025 16:30</p>
-                </div>
-                <div className={styles.originalLink}>
-                  <p>{link.originalLink}</p>
-                </div>
-                <div className={styles.shortLink}>
-                  <p>{link.shortLink}</p>
-                  <img onClick={() => handleCopyLink(link.shortLink)} src={copyIcon} alt="copy-image" />
-                </div>
-                <div className={styles.remarks}>
-                  <p>{link.remark}</p>
-                </div>
-                <div className={styles.clicks}>
-                  <p>{link.count}</p>
-                </div>
-                <div className={styles.status}>
-                  {link.status === "active" ? (
-                    <h3 className={styles.active}>Active</h3>
-                  ) : (
-                    <h3 className={styles.inactive}>Inactive</h3>
-                  )}
-                </div>
-                <div className={styles.action}>
-                  <img onClick={handleEditLinkClick} src={editIcon} alt="edit-image" />
-                  <img
-                    src={deleteIcon}
-                    alt="delete-image"
-                    onClick={handleDeleteClick}
-                  />
-                </div>
+        {linkData.length > 0 &&
+          linkData.map((link) => (
+            <div className={styles.linkDetails} key={link._id}>
+              <div className={styles.date}>
+                <p>Jan 14, 2025 16:30</p>
               </div>
-        ))}
+              <div className={styles.originalLink}>
+                <p>{link.originalLink}</p>
+              </div>
+              <div className={styles.shortLink}>
+                <p>{link.shortLink}</p>
+                <img
+                  onClick={() => handleCopyLink(link.shortLink)}
+                  src={copyIcon}
+                  alt="copy-image"
+                />
+              </div>
+              <div className={styles.remarks}>
+                <p>{link.remark}</p>
+              </div>
+              <div className={styles.clicks}>
+                <p>{link.count}</p>
+              </div>
+              <div className={styles.status}>
+                {link.status === "active" ? (
+                  <h3 className={styles.active}>Active</h3>
+                ) : (
+                  <h3 className={styles.inactive}>Inactive</h3>
+                )}
+              </div>
+              <div className={styles.action}>
+                <img
+                  onClick={() => handleEditLinkClick(link._id)}
+                  src={editIcon}
+                  alt="edit-image"
+                />
+                <img
+                  src={deleteIcon}
+                  alt="delete-image"
+                  onClick={() => handleDeleteClick(link._id)}
+                />
+              </div>
+            </div>
+          ))}
         {showPopup && (
           <Popup
             message=" Are you sure, you want to remove it ? "
+            loading={loading}
             onConfirm={handleConfirmDelete}
             onCancel={handleCancelDelete}
           />
         )}
-        {showEditPopup && <EditLinkPopup onClose={handleCloseEditLinkPopup} />}
+        {showEditPopup && (
+          <EditLinkPopup idLink={idLink} onClose={handleCloseEditLinkPopup} />
+        )}
       </div>
     </div>
   );
 };
 
 export default Link;
-

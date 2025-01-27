@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import styles from "./dashboard.module.css";
 import cuvetteImage from "../../assets/cuvette.png";
 import dashboardIcon from "../../assets/Icon.png";
@@ -7,10 +7,12 @@ import AnalyticIcon from "../../assets/Icon2.png";
 import settingIcon from "../../assets/Frame.png";
 import Nav from "../../components/Nav/Nav";
 import { useNavigate, useParams } from "react-router-dom";
+import { getLinkData } from "../../services";
 
 const Dashboard = () => {
   const navigate = useNavigate()
   const {id } = useParams()
+  const [linkData,setLinkData] = useState([])
   const dateWiseClicks = [
     { label: "21-01-25", value: 1234, widthPercentage: 90 },
     { label: "20-01-25", value: 1140, widthPercentage: 80 },
@@ -24,6 +26,21 @@ const Dashboard = () => {
     { label: "Desktop", value: 40, widthPercentage: 25 },
     { label: "Tablet", value: 3, widthPercentage: 5 },
   ];
+
+  useEffect(() => {
+    const fetchLinks = async () => {
+      try {
+        const response = await getLinkData();
+        setLinkData(response.links);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchLinks();
+  }, []);
+  console.log(linkData)
+
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.sidebar}>

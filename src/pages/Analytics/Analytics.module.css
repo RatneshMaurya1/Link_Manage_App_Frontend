@@ -123,7 +123,7 @@
     justify-content: center;
   }
   .date > P {
-    color: #3b3c51;
+    /* color: #3b3c51; */
     font-size: 14px;
     font-weight: 500;
     line-height: 19.12px;
@@ -135,12 +135,14 @@
     display: flex;
     align-items: center;
     justify-content: start;
+    overflow: hidden;
   }
   .originalLink > P {
     color: #3b3c51;
     font-size: 14px;
     font-weight: 500;
     line-height: 19.12px;
+    flex-shrink: 0;
   }
   .shortLink {
     height: 100%;
@@ -149,12 +151,14 @@
     display: flex;
     align-items: center;
     justify-content: start;
+    overflow: hidden;
   }
   .shortLink > P {
     color: #3b3c51;
     font-size: 14px;
     font-weight: 500;
     line-height: 19.12px;
+    flex-shrink: 0;
   }
   .ipAddress {
     height: 100%;
