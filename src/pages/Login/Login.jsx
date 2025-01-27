@@ -72,7 +72,7 @@ const Register = () => {
           <form onSubmit={handleSubmit}>
             <input type="text" placeholder="Email id" value={formData.email} onChange={(e) => setFormData({...formData,email:e.target.value})}/>
             <input type="tel" placeholder="Password" value={formData.password} onChange={(e) => setFormData({...formData,password:e.target.value})}/>
-            <button type="submit" disabled={loading}>{loading ? "Loading" : "Login"}</button>
+            <button type="submit" disabled={loading}>{loading ? "Loading..." : "Login"}</button>
           </form>
           <h1 className={styles.account}>Don’t have an account?<span onClick={() => navigate("/register")}> SignUp</span></h1>
           </div>
