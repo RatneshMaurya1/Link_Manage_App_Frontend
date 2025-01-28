@@ -12,7 +12,7 @@ import Nav from "../../components/Nav/Nav";
 import { useNavigate, useParams } from "react-router-dom";
 import Popup from "../../components/DeleteLink/DeleteLink";
 import EditLinkPopup from "../../components/EditLinkPopup/EditLinkPopup";
-import {deleteLinkById, getLinkData } from "../../services";
+import { deleteLinkById, getLinkData } from "../../services";
 import toast from "react-hot-toast";
 
 const Link = () => {
@@ -23,7 +23,8 @@ const Link = () => {
   const [linkData, setLinkData] = useState([]);
   const [idLink, setIdLink] = useState("");
   const [deleteLinkId, setDeleteLinkId] = useState("");
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const input = localStorage.getItem("input");
 
   const handleDeleteClick = (deleteId) => {
     setDeleteLinkId(deleteId);
@@ -31,17 +32,17 @@ const Link = () => {
   };
 
   const handleConfirmDelete = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await deleteLinkById(deleteLinkId);
-      if(response.message === "Link deleted successfully."){
-        return toast.success(response.message)
+      if (response.message === "Link deleted successfully.") {
+        return toast.success(response.message);
       }
     } catch (error) {
       toast.error(error.message);
     } finally {
       setShowPopup(false);
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -72,6 +73,9 @@ const Link = () => {
     const interval = setInterval(fetchLinks, 5000);
 
     return () => clearInterval(interval);
+  }, [input]);
+  useEffect(() => {
+    localStorage.removeItem("input");
   }, []);
 
   const handleCopyLink = (link) => {
@@ -117,6 +121,7 @@ const Link = () => {
         <div className={styles.header}>
           <Nav />
         </div>
+        <div className={styles.detailsWrapper}>
         <div className={styles.detailsHeader}>
           <p>Date</p>
           <p>Original Link</p>
@@ -126,7 +131,7 @@ const Link = () => {
           <p>Status</p>
           <p>Action</p>
         </div>
-        {linkData.length > 0 &&
+        {linkData?.length > 0 ?
           linkData.map((link) => (
             <div className={styles.linkDetails} key={link._id}>
               <div className={styles.date}>
@@ -169,7 +174,8 @@ const Link = () => {
                 />
               </div>
             </div>
-          ))}
+          )): <p className={styles.notFound}>Link not found based on your search</p>}
+          </div>
         {showPopup && (
           <Popup
             message=" Are you sure, you want to remove it ? "

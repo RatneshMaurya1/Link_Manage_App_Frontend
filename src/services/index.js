@@ -60,7 +60,7 @@ export const createShortLink = async (data) => {
 };
 export const getLinkData = async () => {
   try {
-    const response = await fetch(`${BACKEND_URL}/user/links`, {
+    const response = await fetch(`${BACKEND_URL}/user/links?search=${localStorage.getItem("input")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

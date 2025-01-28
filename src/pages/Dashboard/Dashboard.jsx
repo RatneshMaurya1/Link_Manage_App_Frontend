@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./dashboard.module.css";
 import cuvetteImage from "../../assets/cuvette.png";
 import dashboardIcon from "../../assets/Icon.png";
@@ -7,25 +7,34 @@ import AnalyticIcon from "../../assets/Icon2.png";
 import settingIcon from "../../assets/Frame.png";
 import Nav from "../../components/Nav/Nav";
 import { useNavigate, useParams } from "react-router-dom";
-import { getLinkData } from "../../services";
+import { getLinkData, getLinkDetailsData } from "../../services";
 
 const Dashboard = () => {
-  const navigate = useNavigate()
-  const {id } = useParams()
-  const [linkData,setLinkData] = useState([])
-  const dateWiseClicks = [
-    { label: "21-01-25", value: 1234, widthPercentage: 90 },
-    { label: "20-01-25", value: 1140, widthPercentage: 80 },
-    { label: "19-01-25", value: 134, widthPercentage: 20 },
-    { label: "18-01-25", value: 34, widthPercentage: 5 },
-    { label: "17-01-25", value: 234, widthPercentage: 40 },
-  ];
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [linkData, setLinkData] = useState([]);
+  const [detailsData, setDetailsData] = useState([]);
+  const dateClicks = detailsData
+    .map((click) => click.createdAt)
+    .filter((date) => date);
+  const totalCount = linkData?.reduce((sum, count) => sum + count.count, 0);
 
-  const deviceClicks = [
-    { label: "Mobile", value: 134, widthPercentage: 85 },
-    { label: "Desktop", value: 40, widthPercentage: 25 },
-    { label: "Tablet", value: 3, widthPercentage: 5 },
-  ];
+  const dateWiseClicks = dateClicks.reduce((acc, date) => {
+    const formattedDate = new Date(date).toISOString().split("T")[0];
+    const found = acc.find((item) => item.label === formattedDate);
+    if (found) found.value += 1;
+    else acc.push({ label: formattedDate, value: 1, widthPercentage: 0 });
+    return acc;
+  }, []);
+
+  const deviceClicks = detailsData.reduce((acc, data) => {
+    const device =
+      data.deviceType === "smartphone" ? "Mobile" : data.deviceType;
+    const found = acc.find((item) => item.label === device);
+    if (found) found.value += 1;
+    else acc.push({ label: device, value: 1, widthPercentage: 0 });
+    return acc;
+  }, []);
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -39,8 +48,18 @@ const Dashboard = () => {
 
     fetchLinks();
   }, []);
-  console.log(linkData)
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const response = await getLinkDetailsData();
+        setDetailsData(response.links);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
 
+    fetchDetails();
+  }, []);
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.sidebar}>
@@ -50,16 +69,25 @@ const Dashboard = () => {
             <img src={dashboardIcon} alt="dashboardIcon-image" />
             <h3 className={styles.dashboardText}>Dashboard</h3>
           </div>
-          <div className={styles.option1} onClick={() => navigate(`/link/${id}`)}>
+          <div
+            className={styles.option1}
+            onClick={() => navigate(`/link/${id}`)}
+          >
             <img src={linkIcon} alt="link-icon" />
             <p>Link</p>
           </div>
-          <div className={styles.option1} onClick={() => navigate(`/analytics/${id}`)}>
+          <div
+            className={styles.option1}
+            onClick={() => navigate(`/analytics/${id}`)}
+          >
             <img src={AnalyticIcon} alt="Analytics-icon" />
             <p>Analytics</p>
           </div>
         </div>
-        <div className={styles.setting}  onClick={() => navigate(`/setting/${id}`)}>
+        <div
+          className={styles.setting}
+          onClick={() => navigate(`/setting/${id}`)}
+        >
           <img src={settingIcon} alt="setting-icon" />
           <p>Settings</p>
         </div>
@@ -70,42 +98,50 @@ const Dashboard = () => {
         </div>
         <div className={styles.totalClicks}>
           <h3>Total Clicks</h3>
-          <p>1234</p>
+          <p>{totalCount}</p>
         </div>
 
         <div className={styles.charts}>
           <div className={styles.chart}>
             <h3>Date-wise Clicks</h3>
             <div className={styles.barChart}>
-              {dateWiseClicks.map((item, index) => (
-                <div key={index} className={styles.bar}>
-                  <p className={styles.label}>{item.label}</p>
-                  <div className={styles.progressContainer}>
-                  <div
-                    className={styles.progress}
-                    style={{ width: `${item.widthPercentage}%` }}
-                  ></div>
+              {dateWiseClicks.length > 0 ? (
+                dateWiseClicks.map((item, index) => (
+                  <div key={index} className={styles.bar}>
+                    <p className={styles.label}>{item.label}</p>
+                    <div className={styles.progressContainer}>
+                      <div
+                        className={styles.progress}
+                        style={{ width: `${Math.floor((item.value/totalCount) * 100)}%` }}
+                      ></div>
+                    </div>
+                    <p className={styles.value}>{item.value}</p>
                   </div>
-                  <p className={styles.value}>{item.value}</p>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p>No data right now.</p>
+              )}
             </div>
           </div>
           <div className={styles.chart}>
             <h3>Click Devices</h3>
             <div className={styles.barChart}>
-              {deviceClicks.map((item, index) => (
-                <div key={index} className={styles.bar}>
-                  <p className={styles.label}>{item.label}</p>
-                  <div className={styles.progressContainer}>
-                  <div
-                    className={styles.progress}
-                    style={{ width: `${item.widthPercentage}%` }}
-                  ></div>
+              {deviceClicks.length > 0 ? (
+                deviceClicks.map((item, index) => (
+                  <div key={index} className={styles.bar}>
+                    <p className={styles.label}>{item.label}</p>
+                    <div className={styles.progressContainer}>
+                      <div
+                        className={styles.progress}
+                        style={{ width: `${Math.floor((item.value/totalCount) * 100)}%` }}
+                      ></div>
+                    </div>
+                    <p className={styles.value}>{item.value}</p>
                   </div>
-                  <p className={styles.value}>{item.value}</p>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p>No data right now.</p>
+              )}
             </div>
           </div>
         </div>

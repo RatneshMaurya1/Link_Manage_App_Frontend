@@ -91,7 +91,6 @@
     margin-top: 20px;
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
     gap: 16.5%;
     padding: 0 40px;
     border-radius: 20px 20px 0px 0px;
@@ -106,7 +105,6 @@
   .linkDetails {
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
     height: 62px;
     width: 100%;
     gap: 8%;
@@ -123,10 +121,10 @@
     justify-content: center;
   }
   .date > P {
-    /* color: #3b3c51; */
     font-size: 14px;
     font-weight: 500;
     line-height: 19.12px;
+    flex-shrink: 0;
   }
   .originalLink {
     height: 100%;
@@ -196,6 +194,331 @@
     align-items: center;
     justify-content: center;
   }
-
+  .header {
+    width: auto;
+    height: auto;
+  }
+  @media (max-width:1280px) {
+    .detailsHeader {
+      gap: 14%;
+    }
+  }
+  @media (max-width:1200px) {
+    .detailsHeader {
+      gap: 13%;
+    }
+    .detailsHeader {
+      width: 100%;
+    }
+    .linkDetails {
+      width: 100%;
+    }
+    .main {
+      height: 100vh;
+      width: 78%;
+      padding: 0px 20px;
+    }
+    .date {
+      width: 14%;
+    }
+    .date > P {
+      font-size: 14px;
+    }
+    .originalLink {
+      width: 19%;
+    }
+    .originalLink > P {
+      font-size: 14px;
+    }
+    .shortLink {
+      width: 10%;
+    }
+    .shortLink > P {
+      font-size: 14px;
+    }
+    .shortLink > img{
+      height: 50px;
+      width: 50px;
+      position: absolute;
+      right: -10px;
+      z-index: 1;
+      cursor: pointer;
+    }
+    .header {
+      width: auto;
+      height: auto;
+    }
+    .remarks {
+      width: 12%;
+    }
+    .remarks > P {
+      color: #3b3c51;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 19.12px;
+    }
+    .clicks {
+      height: 100%;
+      width: 12%;
+      border: 0.5px solid #F8F8F8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .clicks > P {
+      color: #3b3c51;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 19.12px;
+    }
+    .status {
+      height: 100%;
+      width: 12%;
+      border: 0.5px solid #F8F8F8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .action > P {
+      color: #3b3c51;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 19.12px;
+    }
+    .action {
+      height: 100%;
+      width: 12%;
+      border: 0.5px solid #F8F8F8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .action > img{
+      cursor: pointer;
+    }
+    .active {
+      color: #1EB036;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 19.12px;
+    }
+    .inactive{
+      color: #B0901E;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 19.12px; 
+    }
+  }
+  @media (max-width:1200px) {
+    .main{
+      width: 77%;
+    }
+  }
   
+  @media (max-width:1130px) {
+    .shortLink {
+      width: 11%;
+    }
+    .date > P {
+      font-size: 12px;
+    }
+    .detailsHeader {
+      gap: 12%;
+    }
+  }
+  @media (max-width:1090px) {
+    .main{
+      width: 76%;
+    }
+    .detailsHeader {
+      gap: 10.7%;
+    }
+    .date > p{
+    padding-left: 10px;
+    }
+  }
+  @media (max-width:1040px) {
+    .main{
+      width: 75%;
+    }
+  }
+  @media (max-width: 992px) {
+    .detailsHeader {
+      width: 800px;
+      gap: 11.7%;
+    }
+    .linkDetails {
+      width: 800px;
+    }
+    .linkContainer {
+      display: flex;
+      flex-direction: column;
+    }
+    .main{
+      width: 100%;
+    }
+    .detailsWrapper{
+      overflow-x: scroll;
+    }
+    .sidebar {
+      height: 80px;
+      min-width: 250px;
+      width: 100%;
+      border: 1px solid #f2f2f2;
+      /* border: 1px solid black; */
+      display: flex;
+      align-items: center;
+      /* justify-content: space-around; */
+      flex-direction: row;
+    }
+    .sidebar > img {
+      height: 45px;
+      width: 120px;
+      margin-top: 0px;
+      margin-left: 40px;
+    }
+    .options {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0px;
+      gap: 0px;
+      height: 100%;
+      width: 50%;
+      margin-left: 20%;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .option1 {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding-left: 40px;
+      cursor: pointer;
+    }
+    .dashboardText {
+      color: #1b48da;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 19.12px;
+    }
+  
+    .optionDashboard {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: #f3f7fd;
+      height: 39px;
+      width: 120px;
+      padding-left: 0px;
+      margin-left: 0px;
+    }
+  
+    .setting {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 0px;
+      padding-left: 0px;
+      cursor: pointer;
+    }
+  }
+  @media (max-width: 768px) {
+    .options {
+      margin-left: 14%;
+    }
+    .charts {
+      flex-direction: column;
+    }
+  }
+  @media (max-width: 650px) {
+    .sidebar > img {
+      height: 25px;
+      width: 80px;
+      margin-top: 0px;
+      margin-left: 20px;
+    }
+    /* .sidebar{
+      overflow-x: scroll;
+    } */
+    .setting {
+      padding-left: 24px;
+    }
+    .option1 {
+      padding-left: 20px;
+    }
+    .options {
+      margin-left: 11%;
+    }
+    .option1 > img {
+      display: none;
+    }
+    .optionDashboard > img {
+      display: none;
+    }
+    .setting > img {
+      display: none;
+    }
+    .optionDashboard {
+      width: auto;
+      padding: 0 10px;
+    }
+    .charts {
+      display: flex;
+      gap: 20px;
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-top: 40px;
+    }
+  }
+  @media (max-width: 480px) {
+    .setting {
+      padding-left: 20px;
+    }
+    .options {
+      margin-left: 6%;
+    }
+  }
+  @media (max-width: 418px) {
+    .sidebar > img {
+      height: 20px;
+      width: 60px;
+      margin-top: 0px;
+      margin-left: 10px;
+    }
+    .setting {
+      padding-left: 20px;
+    }
+    .options {
+      margin-left: 6%;
+    }
+    .option1 > p {
+      font-size: 11px;
+    }
+    .optionDashboard > p {
+      font-size: 11px;
+    }
+    .setting > p {
+      font-size: 11px;
+    }
+  }
+  @media (max-width: 350px) {
+    .setting > img {
+      height: 15px;
+      width: 51px;
+      margin-top: 0px;
+      margin-left: 9px;
+    }
+    .option1 {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding-left: 10px;
+      cursor: pointer;
+    }
+    .dashboardText {
+      font-size: 12px;
+    }
+  }
   

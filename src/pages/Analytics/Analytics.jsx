@@ -80,6 +80,7 @@ const formatDateToIST = (utcDate) => {
         <div className={styles.header}>
           <Nav />
         </div>
+        <div className={styles.detailsWrapper}>
         <div className={styles.detailsHeader}>
           <p>Timestamp</p>
           <p>Original Link</p>
@@ -107,6 +108,7 @@ const formatDateToIST = (utcDate) => {
               </div>
             </div>
           ))}
+          </div>
       </div>
     </div>
   );
