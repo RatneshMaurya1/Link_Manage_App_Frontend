@@ -12,38 +12,62 @@ import { getLinkDetailsData } from "../../services";
 const Analytics = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [detailsData, setDetailsData] = useState();
+  const [detailsData, setDetailsData] = useState([]);
+  const [sortedData, setSortedData] = useState([]);
+  const [sortOrder, setSortOrder] = useState("asc");
 
-const formatDateToIST = (utcDate) => {
-  const date = new Date(utcDate);
-  return date.toLocaleString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Kolkata",
-  });
-};
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 7;
+  const formatDateToIST = (utcDate) => {
+    const date = new Date(utcDate);
+    return date.toLocaleString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "Asia/Kolkata",
+    });
+  };
 
   useEffect(() => {
     const fetchLinks = async () => {
       try {
-        const response = await getLinkDetailsData();
-        console.log(response);
+        const response = await getLinkDetailsData(currentPage, itemsPerPage);
+
         setDetailsData(response.links);
+        setTotalPages(response.totalPages || 1);
+
+        const sorted = [...response.links].sort((a, b) =>
+          sortOrder === "asc"
+            ? new Date(a.time) - new Date(b.time)
+            : new Date(b.time) - new Date(a.time)
+        );
+        setSortedData(sorted);
       } catch (error) {
         console.error(error.message);
       }
     };
 
     fetchLinks();
-
     const interval = setInterval(fetchLinks, 5000);
-
     return () => clearInterval(interval);
-  }, []);
+  }, [sortOrder, currentPage]);
+
+  const handleSortByDate = () => {
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+
+    const sorted = [...sortedData].sort((a, b) =>
+      newSortOrder === "asc"
+        ? new Date(a.time) - new Date(b.time)
+        : new Date(b.time) - new Date(a.time)
+    );
+    setSortedData(sorted);
+  };
+
   return (
     <div className={styles.linkContainer}>
       <div className={styles.sidebar}>
@@ -80,35 +104,79 @@ const formatDateToIST = (utcDate) => {
         <div className={styles.header}>
           <Nav />
         </div>
-        <div className={styles.detailsWrapper}>
-        <div className={styles.detailsHeader}>
-          <p>Timestamp</p>
-          <p>Original Link</p>
-          <p>Short Link</p>
-          <p>ip address</p>
-          <p>User Device</p>
-        </div>
-        {detailsData?.length > 0 &&
-          detailsData.map((detail) => (
-            <div className={styles.linkDetails} key={detail._id}>
-              <div className={styles.date}>
-                <p>{formatDateToIST(detail.time)}</p>
+        <div>
+          <div className={styles.detailsWrapper}>
+            <div className={styles.detailsHeader}>
+              <div className={styles.dateImg}>
+                <p>Timestamp</p>
+                <img
+                  className={styles.dateUpperSort}
+                  src="https://res.cloudinary.com/dlmwurg10/image/upload/v1738320863/Vector_7_jkebor.png"
+                  alt="upper-arrow"
+                  onClick={handleSortByDate}
+                />
+                <img
+                  className={styles.dateLowerSort}
+                  src="https://res.cloudinary.com/dlmwurg10/image/upload/v1738320852/Vector_6_cbh2zf.png"
+                  alt="lower-arrow"
+                  onClick={handleSortByDate}
+                />
               </div>
-              <div className={styles.originalLink}>
-                <p>{detail.linkId.originalLink}</p>
-              </div>
-              <div className={styles.shortLink}>
-                <p>{detail.linkId.shortLink}</p>
-              </div>
-              <div className={styles.ipAddress}>
-                <p>{detail.ipAdress}</p>
-              </div>
-              <div className={styles.userDevice}>
-                <p>{detail.userDevice}</p>
-              </div>
+              <p>Original Link</p>
+              <p>Short Link</p>
+              <p>IP Address</p>
+              <p>User Device</p>
             </div>
-          ))}
+            {sortedData?.length > 0 ? (
+              sortedData.map((detail) => (
+                <div className={styles.linkDetails} key={detail._id}>
+                  <div className={styles.date}>
+                    <p>{formatDateToIST(detail.time)}</p>
+                  </div>
+                  <div className={styles.originalLink}>
+                    <p>{detail.linkId.originalLink}</p>
+                  </div>
+                  <div className={styles.shortLink}>
+                    <p>{detail.linkId.shortLink}</p>
+                  </div>
+                  <div className={styles.ipAddress}>
+                    <p>{detail.ipAdress}</p>
+                  </div>
+                  <div className={styles.userDevice}>
+                    <p>{detail.userDevice}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className={styles.notFound}>No records found</p>
+            )}
           </div>
+          <div className={styles.pagination}>
+            <button
+              className={styles.prev}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              <img
+                src="https://res.cloudinary.com/dlmwurg10/image/upload/v1738336324/Vector_8_qasadw.png"
+                alt=""
+              />
+            </button>
+            <div className={styles.activeButton}>{currentPage}</div>
+            <button
+              className={styles.prev}
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              <img
+                src="https://res.cloudinary.com/dlmwurg10/image/upload/v1738336323/carat_uzihjo.png"
+                alt=""
+              />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

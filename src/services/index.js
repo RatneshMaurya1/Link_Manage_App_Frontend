@@ -58,15 +58,19 @@ export const createShortLink = async (data) => {
     throw new Error(error.message || "An unexpected error occurred");
   }
 };
-export const getLinkData = async () => {
+export const getLinkData = async ({ page = 1, limit = 10 }) => {
   try {
-    const response = await fetch(`${BACKEND_URL}/user/links?search=${localStorage.getItem("input")}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `${localStorage.getItem("token")}`
-      },
-    });
+    const response = await fetch(
+      `${BACKEND_URL}/user/links?search=${localStorage.getItem("input")}&page=${localStorage.getItem("currentPage") || 1 }&limit=${limit}`, 
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    
     if (response.ok) {
       return response.json();
     } else {
@@ -77,15 +81,17 @@ export const getLinkData = async () => {
     throw new Error(error.message || "An unexpected error occurred");
   }
 };
-export const getLinkDetailsData = async () => {
+
+export const getLinkDetailsData = async (page = 1, limit = 5) => {
   try {
-    const response = await fetch(`${BACKEND_URL}/links/details`, {
+    const response = await fetch(`${BACKEND_URL}/links/details?page=${page}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${localStorage.getItem("token")}`
       },
     });
+
     if (response.ok) {
       return response.json();
     } else {
@@ -96,6 +102,7 @@ export const getLinkDetailsData = async () => {
     throw new Error(error.message || "An unexpected error occurred");
   }
 };
+
 export const userData = async () => {
   try {
     const response = await fetch(`${BACKEND_URL}/api/user/data`, {
@@ -160,6 +167,27 @@ export const updatetLink = async (data,id) => {
 export const deleteLinkById = async (id) => {
   try {
     const response = await fetch(`${BACKEND_URL}/deleteLink/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${localStorage.getItem("token")}`
+      },
+    });
+    if (response.ok) {
+      return response.json();
+    } else {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || "Something went wrong");
+    }
+  } catch (error) {
+    throw new Error(error.message || "An unexpected error occurred");
+  }
+};
+
+
+export const deleteUser = async () => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/user/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

@@ -12,11 +12,21 @@ const NewLinkPopup = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const [isExpirationEnabled, setIsExpirationEnabled] = useState(false);
 
+  const isValidUrl = (url) => {
+    const urlPattern = /^(https?:\/\/)?((([a-zA-Z\d]([a-zA-Z\d-]*[a-zA-Z\d])*)\.)+[a-zA-Z]{2,}|localhost|\d{1,3}(\.\d{1,3}){3})(:\d+)?(\/[-a-zA-Z\d%@_.~+&:]*)*(\?[;&a-zA-Z\d%@_.,~+&:=-]*)?(#[-a-zA-Z\d_]*)?$/;
+    return urlPattern.test(url);
+  };
+
   const handleSubmit = async () => {
     if (linkData.originalLink === "" || linkData.remark === "") {
       toast.error("Please fill all the fields");
       return;
     }
+    if (!isValidUrl(linkData.originalLink)) {
+      toast.error("Please enter a valid URL");
+      return;
+    }
+    localStorage.removeItem("loading")
     setLoading(true);
     try {
       const response = await createShortLink(linkData);
@@ -28,6 +38,7 @@ const NewLinkPopup = ({ onClose }) => {
           expire:"",
         })
       }
+    localStorage.setItem("loading",response.message)
     } catch (error) {
       toast.error(error.message);
     } finally {

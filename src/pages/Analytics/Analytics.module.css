@@ -198,6 +198,51 @@
     width: auto;
     height: auto;
   }
+  .dateImg{
+    position: relative;
+  }
+  .dateUpperSort{
+    position: absolute;
+    top: 7px;
+    right: -20px;
+    cursor: pointer;
+  }
+  .dateLowerSort{
+    position: absolute;
+    top: 14px;
+    right: -20px;
+    cursor: pointer;
+  }
+  .pagination{
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 50px 0;
+  }
+  .activeButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    width: 25px;
+    background: none;
+    border: 0.66px solid #4200FF;
+    margin-right: 3px;
+    cursor: pointer;
+  }
+  .prev{
+    height: 25px;
+    width: 25px;
+    background: none;
+    border: 0.66px solid #DFE3E8;
+    margin-right: 3px;
+    background: #1b48da;
+    color: #ffffff;
+    border: 0.66px solid #DFE3E8;
+    background: #FFFFFF;
+    cursor: pointer;
+  
+  }
   @media (max-width:1280px) {
     .detailsHeader {
       gap: 14%;
@@ -519,6 +564,10 @@
     }
     .dashboardText {
       font-size: 12px;
+    }
+    .setting {
+      padding-left: 10px;
+      cursor: pointer;
     }
   }
   

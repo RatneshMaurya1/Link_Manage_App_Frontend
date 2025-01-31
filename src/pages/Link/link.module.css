@@ -95,6 +95,7 @@
   padding: 0 20px;
   padding-left: 40px;
   border-radius: 20px 20px 0px 0px;
+  position: relative;
 }
 .detailsHeader > P {
   color: #3b3c51;
@@ -112,6 +113,12 @@
   border: 1px solid #f8f8f8;
   border-radius: 0px 0px 20px 20px;
 }
+.statusImg{
+  position: relative;
+}
+.dateImg{
+  position: relative;
+}
 .date {
   height: 100%;
   width: 13%;
@@ -119,6 +126,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.dateUpperSort{
+  position: absolute;
+  top: 7px;
+  right: -20px;
+  cursor: pointer;
+}
+.dateLowerSort{
+  position: absolute;
+  top: 14px;
+  right: -20px;
+  cursor: pointer;
+}
+.activeUpperSort{
+  position: absolute;
+  top: 7px;
+  right: -20px;
+  cursor: pointer;
+}
+.activeLowerSort{
+  position: absolute;
+  top: 14px;
+  right: -20px;
+  cursor: pointer;
 }
 .date > P {
   color: #3b3c51;
@@ -246,6 +277,40 @@
   display: flex;
   justify-content: center;
   margin-top: 100px;
+}
+.pagination{
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+}
+.activeButton{
+  height: 25px;
+  width: 25px;
+  background: none;
+  border: 0.66px solid #4200FF;
+  margin-right: 3px;
+  cursor: pointer;
+}
+.nonActive{
+  height: 25px;
+  width: 25px;
+  background: none;
+  border: 0.66px solid #DFE3E8;
+  margin-right: 3px;
+  cursor: pointer;
+}
+.prev{
+  height: 25px;
+  width: 25px;
+  background: none;
+  border: 0.66px solid #DFE3E8;
+  margin-right: 3px;
+  background: #1b48da;
+  color: #ffffff;
+  border: 0.66px solid #DFE3E8;
+  background: #FFFFFF;
+  cursor: pointer;
+
 }
 @media (max-width:1280px) {
   .detailsHeader {
@@ -561,5 +626,9 @@
   }
   .dashboardText {
     font-size: 12px;
+  }
+  .setting {
+    padding-left: 10px;
+    cursor: pointer;
   }
 }

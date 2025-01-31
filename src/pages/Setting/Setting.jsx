@@ -9,12 +9,13 @@ import Nav from "../../components/Nav/Nav";
 import { useNavigate, useParams } from "react-router-dom";
 import DeleteAccount from "../../components/DeleteAccount/DeleteAccount";
 import toast from "react-hot-toast";
-import { userData, userUpdate } from "../../services";
+import { deleteUser, userData, userUpdate } from "../../services";
 
 const Analytics = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [deleteloading, setDeleteLoading] = useState(false);
   const [userDetail, setUserDetail] = useState({
     name: "",
     email: "",
@@ -27,8 +28,21 @@ const Analytics = () => {
     setShowDeletePopup(true);
   };
 
-  const handleConfirmDelete = () => {
-    setShowDeletePopup(false);
+  const handleConfirmDelete = async () => {
+    setDeleteLoading(true);
+    try {
+      const response = await deleteUser();
+      if (response.message === "User deleted successfully.") {
+        toast.success(response.message);
+        logoutUser();
+        return;
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setShowDeletePopup(false);
+      setDeleteLoading(false);
+    }
   };
 
   const handleCancelDelete = () => {
@@ -40,7 +54,7 @@ const Analytics = () => {
       try {
         const response = await userData();
         setUserDetail(response.user);
-        setOriginalUserDetail(response.user); 
+        setOriginalUserDetail(response.user);
       } catch (error) {
         toast.error(error.message);
       }
@@ -54,19 +68,19 @@ const Analytics = () => {
       toast.error("Please provide at least one field to update.");
       return;
     }
-  
+
     setLoading(true);
     try {
       const response = await userUpdate(updatedFields);
       if (response.message === "Your data updated successfully.") {
         toast.success(response.message);
-  
+
         if (updatedFields.email) {
           toast.success("Email updated. You will be logged out.");
-          logoutUser(); 
+          logoutUser();
           return;
         }
-  
+
         setOriginalUserDetail({ ...originalUserDetail, ...updatedFields });
       } else {
         toast.error(response.message);
@@ -77,9 +91,9 @@ const Analytics = () => {
       setLoading(false);
     }
   };
-  
+
   const logoutUser = () => {
-    localStorage.removeItem("token");    
+    localStorage.removeItem("token");
     navigate("/login");
   };
   const getUpdatedFields = () => {
@@ -91,7 +105,7 @@ const Analytics = () => {
     }
     return updatedFields;
   };
-  
+
   return (
     <div className={styles.linkContainer}>
       <div className={styles.sidebar}>
@@ -172,8 +186,12 @@ const Analytics = () => {
           >
             {loading ? "Saving..." : "Save Changes"}
           </button>
-          <button className={styles.deleteAccount} onClick={handleDeleteClick}>
-            Delete Account
+          <button
+            disabled={deleteloading}
+            className={styles.deleteAccount}
+            onClick={handleDeleteClick}
+          >
+            {deleteloading ? "Loading..." : "Delete Account"}
           </button>
         </div>
       </div>

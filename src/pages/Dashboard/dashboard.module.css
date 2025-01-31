@@ -340,4 +340,8 @@
   .dashboardText {
     font-size: 12px;
   }
+  .setting {
+    padding-left: 10px;
+    cursor: pointer;
+  }
 }

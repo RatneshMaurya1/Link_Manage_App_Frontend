@@ -3,7 +3,7 @@ import styles from "./editlinkpopup.module.css";
 import { updatetLink } from "../../services";
 import toast from "react-hot-toast";
 
-const EditLinkPopup = ({ onClose,idLink }) => {
+const EditLinkPopup = ({ onClose, idLink }) => {
   const [linkData, setLinkData] = useState({
     originalLink: "",
     remark: "",
@@ -12,21 +12,31 @@ const EditLinkPopup = ({ onClose,idLink }) => {
   const [loading, setLoading] = useState(false);
   const [isExpirationEnabled, setIsExpirationEnabled] = useState(false);
 
+  const isValidUrl = (url) => {
+    const urlPattern =
+      /^(https?:\/\/)?((([a-zA-Z\d]([a-zA-Z\d-]*[a-zA-Z\d])*)\.)+[a-zA-Z]{2,}|localhost|\d{1,3}(\.\d{1,3}){3})(:\d+)?(\/[-a-zA-Z\d%@_.~+&:]*)*(\?[;&a-zA-Z\d%@_.,~+&:=-]*)?(#[-a-zA-Z\d_]*)?$/;
+    return urlPattern.test(url);
+  };
+
   const handleSubmit = async () => {
     if (!linkData.originalLink && !linkData.remark && !linkData.expire) {
       toast.error("Please provide atleast one field to update.");
       return;
     }
+    if (!isValidUrl(linkData.originalLink)) {
+      toast.error("Please enter a valid URL");
+      return;
+    }
     setLoading(true);
     try {
-      const response = await updatetLink(linkData,idLink);
+      const response = await updatetLink(linkData, idLink);
       if (response.message === "Link updated successfully.") {
         toast.success(response.message);
         setLinkData({
-          originalLink:"",
-          remark:"",
-          expire:"",
-        })
+          originalLink: "",
+          remark: "",
+          expire: "",
+        });
       }
     } catch (error) {
       toast.error(error.message);
@@ -92,7 +102,11 @@ const EditLinkPopup = ({ onClose,idLink }) => {
           <button className={styles.clearButton} onClick={onClose}>
             Clear
           </button>
-          <button disabled={loading} className={styles.createButton} onClick={handleSubmit}>
+          <button
+            disabled={loading}
+            className={styles.createButton}
+            onClick={handleSubmit}
+          >
             {loading ? "Creating..." : "Save"}
           </button>
         </div>
@@ -101,6 +115,4 @@ const EditLinkPopup = ({ onClose,idLink }) => {
   );
 };
 
-
 export default EditLinkPopup;
-
