@@ -312,6 +312,15 @@
   cursor: pointer;
 
 }
+.toastMessage {
+  background-color: transparent;
+  text-align: center;
+  overflow: hidden;
+  border: 1px solid #1b48da;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+}
 @media (max-width:1280px) {
   .detailsHeader {
     gap: 8.5%;

@@ -92,7 +92,13 @@ const Link = () => {
 
   const handleCopyLink = (link) => {
     navigator.clipboard.writeText(link);
-    toast.success("Link copied to clipboard!");
+    toast.success("Link Copied", {
+      icon: (
+        <img src="https://res.cloudinary.com/dlmwurg10/image/upload/v1738346701/Vector_6_ryeizb.png" />
+      ),
+      position: "bottom-left",
+      className: styles.toastMessage,
+    });
   };
 
   const handleCancelDelete = () => {
@@ -297,9 +303,7 @@ const Link = () => {
                 </div>
               ))
             ) : (
-              <p className={styles.notFound}>
-                Link not found based on your search
-              </p>
+              <p className={styles.notFound}>No records found</p>
             )}
           </div>
           {showPopup && (
@@ -345,9 +349,7 @@ const Link = () => {
               />
             </button>
           ) : (
-            <button
-              className={styles.prev}
-            >
+            <button className={styles.prev}>
               <img
                 src="https://res.cloudinary.com/dlmwurg10/image/upload/v1738336323/carat_uzihjo.png"
                 alt=""

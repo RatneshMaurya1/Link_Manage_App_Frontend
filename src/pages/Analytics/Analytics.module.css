@@ -243,6 +243,7 @@
     cursor: pointer;
   
   }
+
   @media (max-width:1280px) {
     .detailsHeader {
       gap: 14%;
