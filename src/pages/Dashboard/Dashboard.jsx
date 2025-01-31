@@ -7,7 +7,7 @@ import AnalyticIcon from "../../assets/Icon2.png";
 import settingIcon from "../../assets/Frame.png";
 import Nav from "../../components/Nav/Nav";
 import { useNavigate, useParams } from "react-router-dom";
-import { getLinkData, getLinkDetailsData } from "../../services";
+import { allLinks, allLinksDetails, getLinkData, getLinkDetailsData } from "../../services";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Dashboard = () => {
   const dateClicks = detailsData
     .map((click) => click.createdAt)
     .filter((date) => date);
-  const totalCount = linkData?.reduce((sum, count) => sum + count.count, 0);
+  const totalCount = detailsData.length;
 
   const dateWiseClicks = dateClicks.reduce((acc, date) => {
     const formattedDate = new Date(date).toISOString().split("T")[0];
@@ -39,7 +39,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchLinks = async () => {
       try {
-        const response = await getLinkData();
+        const response = await allLinks();
         setLinkData(response.links);
       } catch (error) {
         console.error(error.message);
@@ -51,7 +51,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await getLinkDetailsData();
+        const response = await allLinksDetails();
         setDetailsData(response.links);
       } catch (error) {
         console.error(error.message);
