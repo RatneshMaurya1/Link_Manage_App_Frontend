@@ -167,7 +167,6 @@
   transition: width 0.3s ease-in-out;
 }
 .value {
-  width: 50px;
   font-size: 16px;
   font-weight: 700;
   line-height: 21.86px;
