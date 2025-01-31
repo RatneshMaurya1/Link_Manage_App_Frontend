@@ -89,8 +89,8 @@ const Register = () => {
             <input type="text" placeholder="Name" value={formData.name} onChange={(e) => setFormData({...formData,name:e.target.value})}/>
             <input type="text" placeholder="Email id" value={formData.email} onChange={(e) => setFormData({...formData,email:e.target.value})}/>
             <input type="tel" placeholder="Mobile no." value={formData.phone} onChange={(e) => setFormData({...formData,phone:e.target.value})}/>
-            <input type="tel" placeholder="Password" value={formData.password} onChange={(e) => setFormData({...formData,password:e.target.value})}/>
-            <input type="tel" placeholder="Confirm Password" value={formData.confirmPassword} onChange={(e) => setFormData({...formData,confirmPassword:e.target.value})}/>
+            <input type="text" placeholder="Password" value={formData.password} onChange={(e) => setFormData({...formData,password:e.target.value})}/>
+            <input type="text" placeholder="Confirm Password" value={formData.confirmPassword} onChange={(e) => setFormData({...formData,confirmPassword:e.target.value})}/>
             <button type="submit" disabled={loading}>{loading ? "Loading..." : "Register"}</button>
           </form>
           <h1 className={styles.account}>Already have an account? <span onClick={() => navigate("/login")}>Login</span></h1>
