@@ -17,6 +17,35 @@ const NewLinkPopup = ({ onClose }) => {
     return urlPattern.test(url);
   };
 
+  // const handleSubmit = async () => {
+  //   if (linkData.originalLink === "" || linkData.remark === "") {
+  //     toast.error("Please fill all the fields");
+  //     return;
+  //   }
+  //   if (!isValidUrl(linkData.originalLink)) {
+  //     toast.error("Please enter a valid URL");
+  //     return;
+  //   }
+  //   localStorage.removeItem("loading")
+  //   setLoading(true);
+  //   try {
+  //     const response = await createShortLink(linkData);
+  //     if (response.message === "Short link created successfully.") {
+  //       toast.success(response.message);
+  //       setLinkData({
+  //         originalLink:"",
+  //         remark:"",
+  //         expire:"",
+  //       })
+  //     }
+  //   localStorage.setItem("loading",response.message)
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //   } finally {
+  //     setLoading(false);
+  //     onClose();
+  //   }
+  // };
   const handleSubmit = async () => {
     if (linkData.originalLink === "" || linkData.remark === "") {
       toast.error("Please fill all the fields");
@@ -26,19 +55,33 @@ const NewLinkPopup = ({ onClose }) => {
       toast.error("Please enter a valid URL");
       return;
     }
-    localStorage.removeItem("loading")
+  
+    let formattedExpire = null;
+    if (linkData.expire) {
+      const localExpireDate = new Date(linkData.expire);
+      formattedExpire = localExpireDate.toISOString();
+    }
+  
+    localStorage.removeItem("loading");
     setLoading(true);
+    
     try {
-      const response = await createShortLink(linkData);
+      const response = await createShortLink({
+        ...linkData,
+        expire: formattedExpire,
+      });
+      
       if (response.message === "Short link created successfully.") {
         toast.success(response.message);
         setLinkData({
-          originalLink:"",
-          remark:"",
-          expire:"",
-        })
+          originalLink: "",
+          remark: "",
+          expire: "",
+        });
       }
-    localStorage.setItem("loading",response.message)
+  
+      // Set loading status in localStorage
+      localStorage.setItem("loading", response.message);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -46,6 +89,7 @@ const NewLinkPopup = ({ onClose }) => {
       onClose();
     }
   };
+  
 
   return (
     <div className={styles.popupOverlay} onClick={onClose}>

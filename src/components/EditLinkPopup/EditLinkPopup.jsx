@@ -20,16 +20,28 @@ const EditLinkPopup = ({ onClose, idLink }) => {
 
   const handleSubmit = async () => {
     if (!linkData.originalLink && !linkData.remark && !linkData.expire) {
-      toast.error("Please provide atleast one field to update.");
+      toast.error("Please provide at least one field to update.");
       return;
     }
     if (!isValidUrl(linkData.originalLink)) {
       toast.error("Please enter a valid URL");
       return;
     }
+  
+    let formattedExpire = null;
+    if (linkData.expire) {
+      const localExpireDate = new Date(linkData.expire);
+      formattedExpire = localExpireDate.toISOString(); 
+    }
+  
     setLoading(true);
+    
     try {
-      const response = await updatetLink(linkData, idLink);
+      const response = await updatetLink({
+        ...linkData,
+        expire: formattedExpire, 
+      }, idLink);
+      
       if (response.message === "Link updated successfully.") {
         toast.success(response.message);
         setLinkData({
@@ -45,6 +57,7 @@ const EditLinkPopup = ({ onClose, idLink }) => {
       onClose();
     }
   };
+  
 
   return (
     <div className={styles.popupOverlay} onClick={onClose}>
