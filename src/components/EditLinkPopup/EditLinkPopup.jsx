@@ -19,11 +19,11 @@ const EditLinkPopup = ({ onClose, idLink }) => {
   };
 
   const handleSubmit = async () => {
-    if (!linkData.originalLink || !linkData.remark || !linkData.expire) {
+    if (!linkData.originalLink && !linkData.remark && !linkData.expire) {
       toast.error("Please provide at least one field to update.");
       return;
     }
-    if (!isValidUrl(linkData.originalLink)) {
+    if (linkData.originalLink && !isValidUrl(linkData.originalLink)) {
       toast.error("Please enter a valid URL");
       return;
     }
