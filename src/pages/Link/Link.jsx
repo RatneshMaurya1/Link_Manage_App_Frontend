@@ -34,10 +34,9 @@ const Link = () => {
   const fetchLinks = async () => {
     try {
       const response = await getLinkData({ page: currentPage, limit: 7 });
-
       if (response) {
         let updatedData = response.links || [];
-
+  
         // Sorting logic
         if (sortBy.type) {
           updatedData = updatedData.sort((a, b) => {
@@ -54,8 +53,15 @@ const Link = () => {
             return 0;
           });
         }
-
-        setLinkData(updatedData);
+  
+        // Only update state if data has changed
+        setLinkData((prevData) => {
+          const prevDataJSON = JSON.stringify(prevData);
+          const newDataJSON = JSON.stringify(updatedData);
+          
+          return prevDataJSON !== newDataJSON ? updatedData : prevData;
+        });
+  
         setTotalPages(response.totalPages);
         setTotalLinks(response.totalLinks);
       }
@@ -63,15 +69,15 @@ const Link = () => {
       console.error(error.message);
     }
   };
-
+  
   useEffect(() => {
     fetchLinks();
-  }, [currentPage, sortBy]);
-  useEffect(() => {
-    fetchLinks();
-    const interval = setInterval(fetchLinks, 5000);
+    const interval = setInterval(() => {
+      fetchLinks();
+    }, 5000);
+  
     return () => clearInterval(interval);
-  }, []);
+  }, [currentPage, sortBy]); 
   useEffect(() => {
     localStorage.removeItem("input");
   }, []);
